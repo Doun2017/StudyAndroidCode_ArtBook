@@ -60,8 +60,7 @@ public class BookManagerActivity extends Activity {
             try {
                 mRemoteBookManager.asBinder().linkToDeath(mDeathRecipient, 0);
                 List<Book> list = bookManager.getBookList();
-                Log.i(TAG, "query book list, list type:"
-                        + list.getClass().getCanonicalName());
+                Log.i(TAG, "query book list, list type:" + list.getClass().getCanonicalName());
                 Log.i(TAG, "query book list:" + list.toString());
                 Book newBook = new Book(3, "Android进阶");
                 bookManager.addBook(newBook);
@@ -120,8 +119,7 @@ public class BookManagerActivity extends Activity {
                 && mRemoteBookManager.asBinder().isBinderAlive()) {
             try {
                 Log.i(TAG, "unregister listener:" + mOnNewBookArrivedListener);
-                mRemoteBookManager
-                        .unregisterListener(mOnNewBookArrivedListener);
+                mRemoteBookManager.unregisterListener(mOnNewBookArrivedListener);
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
