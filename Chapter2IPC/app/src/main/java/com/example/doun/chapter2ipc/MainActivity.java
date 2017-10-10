@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        UserManager.sUserId = 2;
+        UserManager.sUserId = 2;
         findViewById(R.id.button1).setOnClickListener(new OnClickListener() {
 
             @Override
@@ -49,8 +49,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
-//        Log.d(TAG, "UserManage.sUserId=" + UserManager.sUserId);
-        persistToFile();
+        Log.d(TAG, "UserManage.sUserId=" + UserManager.sUserId);
+//        persistToFile();
 
         super.onResume();
     }
@@ -68,8 +68,7 @@ public class MainActivity extends AppCompatActivity {
                 File cachedFile = new File(MyConstants.CACHE_FILE_PATH);
                 ObjectOutputStream objectOutputStream = null;
                 try {
-                    objectOutputStream = new ObjectOutputStream(
-                            new FileOutputStream(cachedFile));
+                    objectOutputStream = new ObjectOutputStream(new FileOutputStream(cachedFile));
                     objectOutputStream.writeObject(user);
                     Log.d(TAG, "persist user:" + user);
                 } catch (IOException e) {

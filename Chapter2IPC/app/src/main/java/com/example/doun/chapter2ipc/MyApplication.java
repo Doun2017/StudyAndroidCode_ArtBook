@@ -14,16 +14,15 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        String processName = MyUtils.getProcessName(getApplicationContext(),
-                Process.myPid());
+        String processName = MyUtils.getProcessName(getApplicationContext(), Process.myPid());
         Log.d(TAG, "application start, process name:" + processName);
-        new Thread(new Runnable() {
-
-            @Override
-            public void run() {
-                doWorkInBackground();
-            }
-        }).start();
+//        new Thread(new Runnable() {
+//
+//            @Override
+//            public void run() {
+//                doWorkInBackground();
+//            }
+//        }).start();
     }
 
     private void doWorkInBackground() {
