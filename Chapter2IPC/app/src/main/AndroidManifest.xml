@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.doun.chapter2ipc">
 
+    <!--<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />WRITE_EXTERNAL_STORAGE申请成功后read权限自动获得-->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+
     <application
         android:name=".MyApplication"
         android:allowBackup="true"

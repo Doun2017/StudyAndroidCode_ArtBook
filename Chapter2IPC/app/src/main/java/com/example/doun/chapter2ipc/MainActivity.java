@@ -1,5 +1,10 @@
 package com.example.doun.chapter2ipc;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -8,6 +13,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 //
 //import com.example.doun.chapter2ipc.R;
 //import com.example.doun.chapter2ipc.aidl.Book;
@@ -22,6 +29,7 @@ import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Toast;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -33,6 +41,26 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         UserManager.sUserId = 2;
+
+
+
+        //获取permission
+        List<String> permissionList = new ArrayList<>();
+        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            permissionList.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        }
+        if (!permissionList.isEmpty()) {
+            String[] permissions = permissionList.toArray(new String[permissionList.size()]);
+            ActivityCompat.requestPermissions(MainActivity.this, permissions, 1);
+        }
+
+
+
+
+
+
+
         findViewById(R.id.button1).setOnClickListener(new OnClickListener() {
 
             @Override
@@ -50,9 +78,30 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         Log.d(TAG, "UserManage.sUserId=" + UserManager.sUserId);
-//        persistToFile();
+        persistToFile();
 
         super.onResume();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case 1:
+                if (grantResults.length > 0) {
+                    for (int result : grantResults) {
+                        if (result != PackageManager.PERMISSION_GRANTED) {
+                            Toast.makeText(this, "app所需授权未被同意，app即将退出", Toast.LENGTH_SHORT).show();
+                            finish();
+                            return;
+                        }
+                    }
+                } else {
+                    Toast.makeText(this, "发生未知错误", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+                break;
+            default:
+        }
     }
 
     private void persistToFile() {
