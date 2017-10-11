@@ -128,6 +128,8 @@ public class BookManagerService extends Service {
                 }
             }
         }
+        Log.d(TAG, "onNewBookArrived Broadcast");
+
         mListenerList.finishBroadcast();
     }
 
