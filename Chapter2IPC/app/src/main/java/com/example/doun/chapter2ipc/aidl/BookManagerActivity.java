@@ -20,13 +20,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
+import com.example.doun.chapter2ipc.manualbinder.*;
 
 public class BookManagerActivity extends AppCompatActivity {
 
     private static final String TAG = "BookManagerActivity";
     private static final int MESSAGE_NEW_BOOK_ARRIVED = 1;
 
-    private IBookManager mRemoteBookManager;
+    private com.example.doun.chapter2ipc.manualbinder.IBookManager mRemoteBookManager;
 
     @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
@@ -56,17 +57,19 @@ public class BookManagerActivity extends AppCompatActivity {
 
     private ServiceConnection mConnection = new ServiceConnection() {
         public void onServiceConnected(ComponentName className, IBinder service) {
-            IBookManager bookManager = IBookManager.Stub.asInterface(service);
+//            BookManager bookManager = BookManager.Stub.asInterface(service);
+            com.example.doun.chapter2ipc.manualbinder.IBookManager bookManager =
+                    com.example.doun.chapter2ipc.manualbinder.BookManagerImpl.asInterface(service);
             mRemoteBookManager = bookManager;
             try {
                 mRemoteBookManager.asBinder().linkToDeath(mDeathRecipient, 0);
-                List<Book> list = bookManager.getBookList();
+                List<com.example.doun.chapter2ipc.manualbinder.Book> list = bookManager.getBookList();
                 Log.i(TAG, "query book list, list type:" + list.getClass().getCanonicalName());
                 Log.i(TAG, "query book list:" + list.toString());
-                Book newBook = new Book(3, "Android进阶");
+                com.example.doun.chapter2ipc.manualbinder.Book newBook = new com.example.doun.chapter2ipc.manualbinder.Book(3, "Android进阶");
                 bookManager.addBook(newBook);
                 Log.i(TAG, "add book:" + newBook);
-                List<Book> newList = bookManager.getBookList();
+                List<com.example.doun.chapter2ipc.manualbinder.Book> newList = bookManager.getBookList();
                 Log.i(TAG, "query book list:" + newList.toString());
                 bookManager.registerListener(mOnNewBookArrivedListener);
             } catch (RemoteException e) {
@@ -80,10 +83,10 @@ public class BookManagerActivity extends AppCompatActivity {
         }
     };
 
-    private IOnNewBookArrivedListener mOnNewBookArrivedListener = new IOnNewBookArrivedListener.Stub() {
+    private com.example.doun.chapter2ipc.manualbinder.IOnNewBookArrivedListener mOnNewBookArrivedListener = new OnNewBookArrivedListenerImpl() {
 
         @Override
-        public void onNewBookArrived(Book newBook) throws RemoteException {
+        public void onNewBookArrived(com.example.doun.chapter2ipc.manualbinder.Book newBook) throws RemoteException {
             mHandler.obtainMessage(MESSAGE_NEW_BOOK_ARRIVED, newBook).sendToTarget();
         }
     };
@@ -104,7 +107,7 @@ public class BookManagerActivity extends AppCompatActivity {
             public void run() {
                 if (mRemoteBookManager != null) {
                     try {
-                        List<Book> newList = mRemoteBookManager.getBookList();
+                        List<com.example.doun.chapter2ipc.manualbinder.Book> newList = mRemoteBookManager.getBookList();
                     } catch (RemoteException e) {
                         e.printStackTrace();
                     }

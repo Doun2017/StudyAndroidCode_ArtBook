@@ -63,6 +63,23 @@ public class BookManagerImpl extends Binder implements IBookManager {
                 reply.writeNoException();
                 return true;
             }
+
+            case TRANSACTION_registerListener: {
+                data.enforceInterface(DESCRIPTOR);
+                com.example.doun.chapter2ipc.manualbinder.IOnNewBookArrivedListener _arg0;
+                _arg0 = com.example.doun.chapter2ipc.manualbinder.OnNewBookArrivedListenerImpl.asInterface(data.readStrongBinder());
+                this.registerListener(_arg0);
+                reply.writeNoException();
+                return true;
+            }
+            case TRANSACTION_unregisterListener: {
+                data.enforceInterface(DESCRIPTOR);
+                com.example.doun.chapter2ipc.manualbinder.IOnNewBookArrivedListener _arg0;
+                _arg0 = com.example.doun.chapter2ipc.manualbinder.OnNewBookArrivedListenerImpl.asInterface(data.readStrongBinder());
+                this.unregisterListener(_arg0);
+                reply.writeNoException();
+                return true;
+            }
         }
         return super.onTransact(code, data, reply, flags);
     }
@@ -76,6 +93,16 @@ public class BookManagerImpl extends Binder implements IBookManager {
     @Override
     public void addBook(Book book) throws RemoteException {
         // TODO 待实现
+    }
+
+    @Override
+    public void registerListener(IOnNewBookArrivedListener listener) throws RemoteException {
+
+    }
+
+    @Override
+    public void unregisterListener(IOnNewBookArrivedListener listener) throws RemoteException {
+
     }
 
     private static class Proxy implements IBookManager {
@@ -130,6 +157,37 @@ public class BookManagerImpl extends Binder implements IBookManager {
                 data.recycle();
             }
         }
+
+        @Override
+        public void registerListener(com.example.doun.chapter2ipc.manualbinder.IOnNewBookArrivedListener listener) throws android.os.RemoteException {
+            android.os.Parcel _data = android.os.Parcel.obtain();
+            android.os.Parcel _reply = android.os.Parcel.obtain();
+            try {
+                _data.writeInterfaceToken(DESCRIPTOR);
+                _data.writeStrongBinder((((listener != null)) ? (listener.asBinder()) : (null)));
+                mRemote.transact(TRANSACTION_registerListener, _data, _reply, 0);
+                _reply.readException();
+            } finally {
+                _reply.recycle();
+                _data.recycle();
+            }
+        }
+
+        @Override
+        public void unregisterListener(com.example.doun.chapter2ipc.manualbinder.IOnNewBookArrivedListener listener) throws android.os.RemoteException {
+            android.os.Parcel _data = android.os.Parcel.obtain();
+            android.os.Parcel _reply = android.os.Parcel.obtain();
+            try {
+                _data.writeInterfaceToken(DESCRIPTOR);
+                _data.writeStrongBinder((((listener != null)) ? (listener.asBinder()) : (null)));
+                mRemote.transact(TRANSACTION_unregisterListener, _data, _reply, 0);
+                _reply.readException();
+            } finally {
+                _reply.recycle();
+                _data.recycle();
+            }
+        }
     }
+
 
 }

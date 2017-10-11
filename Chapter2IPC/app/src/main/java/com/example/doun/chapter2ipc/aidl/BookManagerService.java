@@ -15,6 +15,7 @@ import android.os.RemoteCallbackList;
 import android.os.RemoteException;
 import android.os.SystemClock;
 import android.util.Log;
+import com.example.doun.chapter2ipc.manualbinder.*;
 
 public class BookManagerService extends Service {
 
@@ -22,22 +23,22 @@ public class BookManagerService extends Service {
 
     private AtomicBoolean mIsServiceDestoryed = new AtomicBoolean(false);
 
-    private CopyOnWriteArrayList<Book> mBookList = new CopyOnWriteArrayList<Book>();
-    // private CopyOnWriteArrayList<IOnNewBookArrivedListener> mListenerList =
-    // new CopyOnWriteArrayList<IOnNewBookArrivedListener>();
+    private CopyOnWriteArrayList<com.example.doun.chapter2ipc.manualbinder.Book> mBookList = new CopyOnWriteArrayList<com.example.doun.chapter2ipc.manualbinder.Book>();
+    // private CopyOnWriteArrayList<com.example.doun.chapter2ipc.manualbinder.IOnNewBookArrivedListener> mListenerList =
+    // new CopyOnWriteArrayList<com.example.doun.chapter2ipc.manualbinder.IOnNewBookArrivedListener>();
 
-    private RemoteCallbackList<IOnNewBookArrivedListener> mListenerList = new RemoteCallbackList<>();
+    private RemoteCallbackList<com.example.doun.chapter2ipc.manualbinder.IOnNewBookArrivedListener> mListenerList = new RemoteCallbackList<>();
 
-    private Binder mBinder = new IBookManager.Stub() {
+    private Binder mBinder = new com.example.doun.chapter2ipc.manualbinder.BookManagerImpl() {
 
         @Override
-        public List<Book> getBookList() throws RemoteException {
+        public List<com.example.doun.chapter2ipc.manualbinder.Book> getBookList() throws RemoteException {
             SystemClock.sleep(5000);
             return mBookList;
         }
 
         @Override
-        public void addBook(Book book) throws RemoteException {
+        public void addBook(com.example.doun.chapter2ipc.manualbinder.Book book) throws RemoteException {
             mBookList.add(book);
         }
 
@@ -64,7 +65,7 @@ public class BookManagerService extends Service {
         }
 
         @Override
-        public void registerListener(IOnNewBookArrivedListener listener)
+        public void registerListener(com.example.doun.chapter2ipc.manualbinder.IOnNewBookArrivedListener listener)
                 throws RemoteException {
             mListenerList.register(listener);
 
@@ -74,7 +75,7 @@ public class BookManagerService extends Service {
         }
 
         @Override
-        public void unregisterListener(IOnNewBookArrivedListener listener)
+        public void unregisterListener(com.example.doun.chapter2ipc.manualbinder.IOnNewBookArrivedListener listener)
                 throws RemoteException {
             boolean success = mListenerList.unregister(listener);
 
@@ -93,9 +94,9 @@ public class BookManagerService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        mBookList.add(new Book(1, "Android"));
-        mBookList.add(new Book(2, "Ios"));
-//        new Thread(new ServiceWorker()).start();
+        mBookList.add(new com.example.doun.chapter2ipc.manualbinder.Book(1, "Android"));
+        mBookList.add(new com.example.doun.chapter2ipc.manualbinder.Book(2, "Ios"));
+        new Thread(new ServiceWorker()).start();
     }
 
     @Override
@@ -114,11 +115,11 @@ public class BookManagerService extends Service {
         super.onDestroy();
     }
 
-    private void onNewBookArrived(Book book) throws RemoteException {
+    private void onNewBookArrived(com.example.doun.chapter2ipc.manualbinder.Book book) throws RemoteException {
         mBookList.add(book);
         final int N = mListenerList.beginBroadcast();
         for (int i = 0; i < N; i++) {
-            IOnNewBookArrivedListener l = mListenerList.getBroadcastItem(i);
+            com.example.doun.chapter2ipc.manualbinder.IOnNewBookArrivedListener l = mListenerList.getBroadcastItem(i);
             if (l != null) {
                 try {
                     l.onNewBookArrived(book);
@@ -141,7 +142,7 @@ public class BookManagerService extends Service {
                     e.printStackTrace();
                 }
                 int bookId = mBookList.size() + 1;
-                Book newBook = new Book(bookId, "new book#" + bookId);
+                com.example.doun.chapter2ipc.manualbinder.Book newBook = new com.example.doun.chapter2ipc.manualbinder.Book(bookId, "new book#" + bookId);
                 try {
                     onNewBookArrived(newBook);
                 } catch (RemoteException e) {
