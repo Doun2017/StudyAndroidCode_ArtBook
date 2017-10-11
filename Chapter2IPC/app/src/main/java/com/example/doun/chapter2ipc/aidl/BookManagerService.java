@@ -56,7 +56,7 @@ public class BookManagerService extends Service {
                 packageName = packages[0];
             }
             Log.d(TAG, "onTransact: " + packageName);
-            if (!packageName.startsWith("com.ryg")) {
+            if (!packageName.startsWith("com.example")) {
                 return false;
             }
 
@@ -95,7 +95,7 @@ public class BookManagerService extends Service {
         super.onCreate();
         mBookList.add(new Book(1, "Android"));
         mBookList.add(new Book(2, "Ios"));
-        new Thread(new ServiceWorker()).start();
+//        new Thread(new ServiceWorker()).start();
     }
 
     @Override

@@ -19,6 +19,7 @@ import java.util.List;
 //import com.example.doun.chapter2ipc.R;
 //import com.example.doun.chapter2ipc.aidl.Book;
 //import com.example.doun.chapter2ipc.manager.UserManager;
+import com.example.doun.chapter2ipc.aidl.BookManagerActivity;
 import com.example.doun.chapter2ipc.model.User;
 import com.example.doun.chapter2ipc.utils.MyConstants;
 import com.example.doun.chapter2ipc.utils.MyUtils;
@@ -65,12 +66,20 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
+//                Intent intent = new Intent();
+//                intent.setClass(MainActivity.this, SecondActivity.class);
+//                User user = new User(0, "jake", true);
+////                user.book = new Book();
+//                intent.putExtra("extra_user", (Serializable) user);
+//                startActivity(intent);
+//
                 Intent intent = new Intent();
-                intent.setClass(MainActivity.this, SecondActivity.class);
-                User user = new User(0, "jake", true);
-//                user.book = new Book();
-                intent.putExtra("extra_user", (Serializable) user);
+                intent.setClass(MainActivity.this, BookManagerActivity.class);
                 startActivity(intent);
+
+
+
+
             }
         });
     }

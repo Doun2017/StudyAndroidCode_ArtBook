@@ -16,11 +16,12 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.os.RemoteException;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-public class BookManagerActivity extends Activity {
+public class BookManagerActivity extends AppCompatActivity {
 
     private static final String TAG = "BookManagerActivity";
     private static final int MESSAGE_NEW_BOOK_ARRIVED = 1;
@@ -83,8 +84,7 @@ public class BookManagerActivity extends Activity {
 
         @Override
         public void onNewBookArrived(Book newBook) throws RemoteException {
-            mHandler.obtainMessage(MESSAGE_NEW_BOOK_ARRIVED, newBook)
-                    .sendToTarget();
+            mHandler.obtainMessage(MESSAGE_NEW_BOOK_ARRIVED, newBook).sendToTarget();
         }
     };
 
@@ -93,7 +93,7 @@ public class BookManagerActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book_manager);
         Intent intent = new Intent(this, BookManagerService.class);
-        bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+        boolean ret = bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
     }
 
     public void onButton1Click(View view) {
