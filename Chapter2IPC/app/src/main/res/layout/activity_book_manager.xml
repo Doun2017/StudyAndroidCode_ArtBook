@@ -10,7 +10,7 @@
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="hello_world" />
+        android:text="效果详见logcat打印" />
 
     <Button
         android:id="@+id/button1"
@@ -18,6 +18,12 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/textView1"
         android:onClick="onButton1Click"
-        android:text="Button" />
+        android:text="列出book的list，有5s延迟" />
 
+    <TextView
+        android:id="@+id/text_show"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/button1"
+        android:text="text_show" />
 </RelativeLayout>

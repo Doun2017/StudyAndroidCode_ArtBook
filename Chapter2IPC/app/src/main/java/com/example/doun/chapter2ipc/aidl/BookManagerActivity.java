@@ -19,6 +19,7 @@ import android.os.RemoteException;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.example.doun.chapter2ipc.manualbinder.*;
 
@@ -107,7 +108,16 @@ public class BookManagerActivity extends AppCompatActivity {
             public void run() {
                 if (mRemoteBookManager != null) {
                     try {
-                        List<com.example.doun.chapter2ipc.manualbinder.Book> newList = mRemoteBookManager.getBookList();
+                        final List<com.example.doun.chapter2ipc.manualbinder.Book> newList = mRemoteBookManager.getBookList();
+                        Log.i(TAG, "query book list, list type:" + newList.getClass().getCanonicalName());
+                        Log.i(TAG, "query book list:" + newList.toString());
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                TextView textView = (TextView)findViewById(R.id.text_show);
+                                textView.setText(newList.toString());
+                            }
+                        });
                     } catch (RemoteException e) {
                         e.printStackTrace();
                     }

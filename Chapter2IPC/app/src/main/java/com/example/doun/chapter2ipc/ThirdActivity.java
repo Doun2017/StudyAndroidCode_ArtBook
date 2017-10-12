@@ -22,7 +22,7 @@ public class ThirdActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.setClass(ThirdActivity.this, MainActivity.class);
+                intent.setClass(ThirdActivity.this, FirstActivity.class);
                 intent.putExtra("time", System.currentTimeMillis());
                 startActivity(intent);
             }

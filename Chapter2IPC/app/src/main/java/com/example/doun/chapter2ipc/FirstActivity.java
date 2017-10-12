@@ -1,65 +1,66 @@
 package com.example.doun.chapter2ipc;
 
-import android.Manifest;
-import android.content.pm.PackageManager;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-//
-//import com.example.doun.chapter2ipc.R;
-//import com.example.doun.chapter2ipc.aidl.Book;
-//import com.example.doun.chapter2ipc.manager.UserManager;
+
+import com.example.doun.chapter2ipc.R;
 import com.example.doun.chapter2ipc.aidl.BookManagerActivity;
 import com.example.doun.chapter2ipc.model.User;
 import com.example.doun.chapter2ipc.utils.MyConstants;
 import com.example.doun.chapter2ipc.utils.MyUtils;
 
-//import android.app.Activity;
+import android.*;
+import android.app.Activity;
 import android.content.Intent;
-//import android.os.Bundle;
+import android.content.pm.PackageManager;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Toast;
 
-
-public class MainActivity extends AppCompatActivity {
-
-    private static final String TAG = "MainActivity";
+public class FirstActivity extends Activity {
+    private static final String TAG = "FirstActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_first);
+        UserManager.sUserId = 2;
+
+        //获取permission
+        List<String> permissionList = new ArrayList<>();
+        if (ContextCompat.checkSelfPermission(FirstActivity.this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            permissionList.add(android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        }
+        if (!permissionList.isEmpty()) {
+            String[] permissions = permissionList.toArray(new String[permissionList.size()]);
+            ActivityCompat.requestPermissions(FirstActivity.this, permissions, 1);
+        }
 
 
+        findViewById(R.id.button1).setOnClickListener(new OnClickListener() {
 
-        findViewById(R.id.button_1).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.setClass(MainActivity.this, FirstActivity.class);
+                intent.setClass(FirstActivity.this, SecondActivity.class);
+                User user = new User(0, "jake", true);
+//                user.book = new Book();
+                intent.putExtra("extra_user", (Serializable) user);
                 startActivity(intent);
-            }
-        });
 
-
-        findViewById(R.id.button_2).setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setClass(MainActivity.this, BookManagerActivity.class);
-                startActivity(intent);
             }
         });
     }
