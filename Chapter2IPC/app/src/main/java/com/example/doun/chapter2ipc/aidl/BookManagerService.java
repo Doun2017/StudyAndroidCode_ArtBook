@@ -27,7 +27,8 @@ public class BookManagerService extends Service {
     // private CopyOnWriteArrayList<com.example.doun.chapter2ipc.manualbinder.IOnNewBookArrivedListener> mListenerList =
     // new CopyOnWriteArrayList<com.example.doun.chapter2ipc.manualbinder.IOnNewBookArrivedListener>();
 
-    private RemoteCallbackList<com.example.doun.chapter2ipc.manualbinder.IOnNewBookArrivedListener> mListenerList = new RemoteCallbackList<>();
+    private RemoteCallbackList<com.example.doun.chapter2ipc.manualbinder.IOnNewBookArrivedListener> mListenerList =
+            new RemoteCallbackList<>();//RemoteCallbackList专门用于删除跨进程listener的接口
 
     private Binder mBinder = new com.example.doun.chapter2ipc.manualbinder.BookManagerImpl() {
 
@@ -44,15 +45,16 @@ public class BookManagerService extends Service {
 
         public boolean onTransact(int code, Parcel data, Parcel reply, int flags)
                 throws RemoteException {
+            //验证permission
             int check = checkCallingOrSelfPermission("com.example.doun.chapter2ipc.permission.ACCESS_BOOK_SERVICE");
             Log.d(TAG, "check=" + check);
             if (check == PackageManager.PERMISSION_DENIED) {
                 return false;
             }
 
+            //验证包名
             String packageName = null;
-            String[] packages = getPackageManager().getPackagesForUid(
-                    getCallingUid());
+            String[] packages = getPackageManager().getPackagesForUid(getCallingUid());
             if (packages != null && packages.length > 0) {
                 packageName = packages[0];
             }
@@ -69,7 +71,7 @@ public class BookManagerService extends Service {
                 throws RemoteException {
             mListenerList.register(listener);
 
-            final int N = mListenerList.beginBroadcast();
+            final int N = mListenerList.beginBroadcast();//beginBroadcast和finishBroadcast必须配对使用
             mListenerList.finishBroadcast();
             Log.d(TAG, "registerListener, current size:" + N);
         }
