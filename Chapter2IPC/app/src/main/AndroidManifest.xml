@@ -54,6 +54,21 @@
             <!--</intent-filter>-->
         </activity>
 
+        <activity
+            android:name=".messenger.MessengerActivity"
+            android:label="MessengerActivity" >
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
+            <!--</intent-filter>-->
+        </activity>
+
+        <service
+            android:name=".messenger.MessengerService"
+            android:process=":remote" >
+            <intent-filter>
+                <action android:name="com.ryg.MessengerService.launch" />
+            </intent-filter>
+        </service>
         <service
             android:name=".aidl.BookManagerService"
             android:process=":remote" >

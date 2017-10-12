@@ -19,5 +19,22 @@
         android:layout_height="wrap_content"
         android:text="binder示例" />
 
+    <Button
+        android:id="@+id/button_3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="IPC之bundle，多进程示例中已包含" />
+
+    <Button
+        android:id="@+id/button_4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="IPC之文件共享，多进程示例中已包含" />
+    <Button
+        android:id="@+id/button_5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="IPC之Messenger" />
+
 
 </android.support.v7.widget.LinearLayoutCompat>

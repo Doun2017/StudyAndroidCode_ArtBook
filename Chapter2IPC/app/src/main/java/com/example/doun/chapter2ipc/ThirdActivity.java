@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Toast;
 
 public class ThirdActivity extends Activity {
     private static final String TAG = "ThirdActivity";
@@ -27,6 +28,8 @@ public class ThirdActivity extends Activity {
                 startActivity(intent);
             }
         });
+        long lTime = getIntent().getLongExtra("time", -1);
+        if (lTime != -1) Toast.makeText(this, ""+lTime, Toast.LENGTH_SHORT).show();
         Log.d(TAG, "onCreate");
     }
 

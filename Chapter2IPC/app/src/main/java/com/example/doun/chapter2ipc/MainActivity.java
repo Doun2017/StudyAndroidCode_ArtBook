@@ -20,6 +20,7 @@ import java.util.List;
 //import com.example.doun.chapter2ipc.aidl.Book;
 //import com.example.doun.chapter2ipc.manager.UserManager;
 import com.example.doun.chapter2ipc.aidl.BookManagerActivity;
+import com.example.doun.chapter2ipc.messenger.MessengerActivity;
 import com.example.doun.chapter2ipc.model.User;
 import com.example.doun.chapter2ipc.utils.MyConstants;
 import com.example.doun.chapter2ipc.utils.MyUtils;
@@ -59,6 +60,14 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent();
                 intent.setClass(MainActivity.this, BookManagerActivity.class);
+                startActivity(intent);
+            }
+        });
+        findViewById(R.id.button_5).setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(MainActivity.this, MessengerActivity.class);
                 startActivity(intent);
             }
         });

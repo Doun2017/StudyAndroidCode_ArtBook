@@ -60,9 +60,11 @@ public class FirstActivity extends Activity {
 //                user.book = new Book();
                 intent.putExtra("extra_user", (Serializable) user);
                 startActivity(intent);
-
             }
         });
+
+        long lTime = getIntent().getLongExtra("time", -1);
+        if (lTime != -1) Toast.makeText(this, ""+lTime, Toast.LENGTH_SHORT).show();
     }
 
     @Override
